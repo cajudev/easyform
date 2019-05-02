@@ -1,0 +1,31 @@
+{
+    "name": "cajudev/forms",
+    "description": "Crie formulários de maneira produtiva e padronizada.",
+    "keywords": ["form", "composer", "php"],
+    "license": "MIT",
+    "homepage": "https://github.com/cajudev/forms",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Richard Lopes",
+            "email": "contato.richardlopes@outlook.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+		"php": "^7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7",
+        "php-coveralls/php-coveralls": "^2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cajudev\\": [
+                "src/",
+                "tests/"
+            ]
+        }
+    }
+}
