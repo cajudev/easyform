@@ -17,7 +17,6 @@ abstract class Element implements Renderable
 	private $classlist;
 	private $childlist;
 	private $attrlist;
-	private $textContent;
 
 	public function __construct()
 	{
@@ -78,16 +77,6 @@ abstract class Element implements Renderable
 		}
 
 		$this->parent = $parent;
-		return $this;
-	}
-
-	public function textContent(string $textContent = null)
-	{
-		if ($textContent === null) {
-			return $this->textContent;
-		}
-
-		$this->textContent = $textContent;
 		return $this;
 	}
 }

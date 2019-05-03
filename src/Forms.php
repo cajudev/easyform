@@ -14,6 +14,7 @@ use Cajudev\Elements\Option;
 use Cajudev\Elements\Button;
 use Cajudev\Elements\DataList;
 use Cajudev\Elements\OutPut;
+use Cajudev\Elements\Text;
 
 class Forms
 {
@@ -32,6 +33,7 @@ class Forms
             case 'button':   return new Button();
             case 'dataList': return new DataList();
             case 'output':   return new OutPut();
+            case 'text':     return new Text();
         }
     }
 }
