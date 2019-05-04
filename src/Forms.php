@@ -18,7 +18,7 @@ use Cajudev\Elements\Text;
 
 class Forms
 {
-    public function create(string $name = null)
+    public static function create(string $name = null)
     {
         switch (strtolower($name)) {
             case null:       return new Form();
