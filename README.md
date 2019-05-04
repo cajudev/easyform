@@ -9,7 +9,7 @@ Bem vindo ao Forms
 [![](https://img.shields.io/github/issues/cajudev/forms.svg)](https://github.com/cajudev/forms/issues)
 [![](https://img.shields.io/github/contributors/cajudev/forms.svg)](https://github.com/cajudev/forms/graphs/contributors)
 
-Uma simples, porém eficiente interface para trabalhar com arquivos csv
+Tornando a criação de formulários eficaz e padronizada
 
 Leia a documentação completa em: http://cajudev.readthedocs.io/pt/latest/forms
 
