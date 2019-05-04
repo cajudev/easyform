@@ -8,16 +8,16 @@ class Text extends Element
 
     private $textContent;
 
-    public function render(): string
-    {
-        return '';
-    }
-
     public function textContent(string $textContent = null) {
         if ($textContent === null) {
             return $this->textContent;
         }
         $this->textContent = $textContent;
         return $this;
+    }
+
+    public function render(): string
+    {
+        return $this->textContent;
     }
 }

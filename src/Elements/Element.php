@@ -5,6 +5,7 @@ namespace Cajudev\Elements;
 use Cajudev\Interfaces\Renderable;
 
 use Cajudev\Forms;
+use Cajudev\Util\Character;
 
 use Cajudev\Collections\ClassList;
 use Cajudev\Collections\ChildList;
@@ -51,12 +52,9 @@ abstract class Element implements Renderable
 	public function __get(string $property)
 	{
 		switch ($property) {
-			case 'classlist':
-				return $this->classlist;
-			case 'childlist':
-				return $this->childlist;
-			case 'attrlist':
-				return $this->attrlist;
+			case 'classlist': return $this->classlist;
+			case 'childlist': return $this->childlist;
+			case 'attrlist':  return $this->attrlist;
 		}
 	}
 
@@ -78,5 +76,21 @@ abstract class Element implements Renderable
 
 		$this->parent = $parent;
 		return $this;
+	}
+
+	public function render(): string
+	{
+		$render  = Character::OPEN_TAG.static::TAG_NAME.Character::SPACE;
+        $render .= isset($this->id) ? "id=\"{$this->id}\"".Character::SPACE : '';
+        $render .= $this->classlist->render().Character::SPACE;
+		$render .= $this->attrlist->render().Character::CLOSE_TAG;
+
+		foreach ($this->childlist as $child) {
+			$render .= $child->render();
+		}
+		
+		$render .= Character::OPEN_TAG.Character::SLASH.static::TAG_NAME.Character::CLOSE_TAG;
+		
+		return $render;
 	}
 }

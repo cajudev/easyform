@@ -37,7 +37,7 @@ class AttrListTest extends TestCase
                        ->add('height', '42');
 
         self::assertEquals(
-            'href="http://www.google.com"&nbsp;alt="google"&nbsp;height="42"',
+            'href="http://www.google.com" alt="google" height="42"',
             $this->attrlist->render()
         );
     }

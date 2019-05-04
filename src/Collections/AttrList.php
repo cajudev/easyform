@@ -6,6 +6,7 @@ use Cajudev\Interfaces\Dictionary;
 use Cajudev\Interfaces\Renderable;
 
 use Cajudev\Elements\Element;
+use Cajudev\Util\Character;
 
 class AttrList implements Dictionary, Renderable
 {
@@ -42,7 +43,11 @@ class AttrList implements Dictionary, Renderable
 
     public function render(): string
     {
-        return implode('&nbsp;', array_map(function ($name, $value) {
+        if (empty($this->attributes)) {
+            return '';
+        }
+        
+        return implode(Character::SPACE, array_map(function ($name, $value) {
                 return "{$name}=\"$value\"";
             }, array_keys($this->attributes), $this->attributes));
     }

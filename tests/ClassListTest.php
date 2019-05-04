@@ -39,6 +39,6 @@ class ClassListTest extends TestCase
     public function test_classlist_add_render()
     {
         $this->classlist->add('col12', 'bold', 'mt-2');
-        self::assertEquals('class="col12&nbsp;bold&nbsp;mt-2"', $this->classlist->render());
+        self::assertEquals('class="col12 bold mt-2"', $this->classlist->render());
     }
 }

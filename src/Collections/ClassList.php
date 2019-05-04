@@ -6,6 +6,7 @@ use Cajudev\Interfaces\ArrayList;
 use Cajudev\Interfaces\Renderable;
 
 use Cajudev\Elements\Element;
+use Cajudev\Util\Character;
 
 class ClassList implements ArrayList, Renderable
 {
@@ -47,7 +48,11 @@ class ClassList implements ArrayList, Renderable
 
     public function render(): string
     {
-        return 'class="'.implode('&nbsp;', $this->classes).'"';
+        if (empty($this->classes)) {
+            return '';
+        }
+
+        return 'class="'.implode(Character::SPACE, $this->classes).'"';
     }
 
 	public function parent() {
