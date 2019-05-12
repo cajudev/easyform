@@ -2,6 +2,7 @@
 
 namespace Cajudev;
 
+use Cajudev\EasyForm\EasyForm;
 use Cajudev\Elements\Form;
 use Cajudev\Elements\Input;
 use Cajudev\Elements\TextArea;
@@ -14,6 +15,7 @@ use Cajudev\Elements\Option;
 use Cajudev\Elements\Button;
 use Cajudev\Elements\DataList;
 use Cajudev\Elements\OutPut;
+use Cajudev\Elements\Small;
 use Cajudev\Elements\Text;
 
 class Forms
@@ -21,7 +23,8 @@ class Forms
     public static function create(string $name = null)
     {
         switch (strtolower($name)) {
-            case null:       return new Form();
+            case null:
+            case 'form':     return new Form();
             case 'input':    return new Input();
             case 'textarea': return new TextArea();
             case 'label':    return new Label();
@@ -33,7 +36,9 @@ class Forms
             case 'button':   return new Button();
             case 'dataList': return new DataList();
             case 'output':   return new OutPut();
+            case 'small':    return new Small();
             case 'text':     return new Text();
+            case 'easyform': return new EasyForm();
         }
     }
 }

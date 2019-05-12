@@ -39,6 +39,11 @@ class AttrList implements Dictionary, Renderable
     {
         $this->attributes = [];
         return $this;
+    }
+    
+    public function count(): int
+    {
+        return count($this->attributes);
 	}
 
     public function render(): string

@@ -44,6 +44,11 @@ class ClassList implements ArrayList, Renderable
     {
         $this->classes = [];
         return $this;
+    }
+    
+    public function count(): int
+    {
+        return count($this->classes);
 	}
 
     public function render(): string

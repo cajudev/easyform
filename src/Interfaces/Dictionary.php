@@ -8,4 +8,5 @@ interface Dictionary
 	function remove(string $index);
 	function get(string $index);
 	function reset();
+	function count();
 }

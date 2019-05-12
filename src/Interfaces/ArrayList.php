@@ -9,4 +9,5 @@ interface ArrayList
 	function get(int $index);
 	function contains(string $data);
 	function reset();
+	function count();
 }

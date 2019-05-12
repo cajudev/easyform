@@ -14,7 +14,6 @@ use Cajudev\Collections\AttrList;
 abstract class Element implements Renderable
 {
 	private $parent;
-	private $id;
 	private $classlist;
 	private $childlist;
 	private $attrlist;
@@ -58,16 +57,6 @@ abstract class Element implements Renderable
 		}
 	}
 
-	public function id(string $id = null)
-	{
-		if ($id === null) {
-			return $this->id;
-		}
-
-		$this->id = $id;
-		return $this;
-	}
-
 	public function parent(self $parent = null)
 	{
 		if ($parent === null) {
@@ -80,10 +69,17 @@ abstract class Element implements Renderable
 
 	public function render(): string
 	{
-		$render  = Character::OPEN_TAG.static::TAG_NAME.Character::SPACE;
-        $render .= isset($this->id) ? "id=\"{$this->id}\"".Character::SPACE : '';
-        $render .= $this->classlist->render().Character::SPACE;
-		$render .= $this->attrlist->render().Character::CLOSE_TAG;
+		$render  = Character::OPEN_TAG.static::TAG_NAME;
+
+		if ($this->classlist->count() > 0) {
+			$render .= Character::SPACE.$this->classlist->render();
+		}
+
+		if ($this->attrlist->count() > 0) {
+			$render .= Character::SPACE.$this->attrlist->render();
+		}
+
+		$render .= Character::CLOSE_TAG;
 
 		foreach ($this->childlist as $child) {
 			$render .= $child->render();
