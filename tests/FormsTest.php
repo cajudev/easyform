@@ -1,6 +1,7 @@
 <?php
 
 use Cajudev\Forms;
+use Cajudev\EasyForm\EasyForm;
 use PHPUnit\Framework\TestCase;
 
 class FormsTest extends TestCase
@@ -57,7 +58,7 @@ class FormsTest extends TestCase
 
     public function test_easy_form_input()
     {
-        $easyForm = Forms::create('easyform');
+        $easyForm = new EasyForm();
 
         $easyForm->setStyle('fieldset', 'col-6');
         $easyForm->setStyle('label', 'color-purple');

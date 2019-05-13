@@ -8,7 +8,7 @@ use Cajudev\EasyForm\EasyInput;
 class EasyForm
 {
     private $form;
-    private $styles = [];
+    private $style;
 
     public function __construct(array $params = [])
     {
@@ -27,14 +27,18 @@ class EasyForm
         }
     }
 
-    public function setStyle(string $key, string $value)
+    public function setStyle(...$data)
     {
-        $this->styles[strtolower($key)] = $value;
+        if (is_array($data[0])) {
+            $this->style = $data[0];
+        } elseif (isset($data[0]) && isset($data[1])) {
+            $this->style[$data[0]] = $data[1];
+        }
     }
 
     public function input(array $params)
     {
-       $easyInput = new EasyInput($this->form, $params, $this->styles);
+       $easyInput = new EasyInput($this->form, $params, $this->style);
        $easyInput->create();
     }
 

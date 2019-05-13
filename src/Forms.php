@@ -38,7 +38,6 @@ class Forms
             case 'output':   return new OutPut();
             case 'small':    return new Small();
             case 'text':     return new Text();
-            case 'easyform': return new EasyForm();
         }
     }
 }
