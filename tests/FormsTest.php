@@ -1,16 +1,16 @@
 <?php
 
-use Cajudev\Forms;
 use Cajudev\EasyForm;
+use Cajudev\Elements\Form;
 use PHPUnit\Framework\TestCase;
 
-class FormsTest extends TestCase
+class FormTest extends TestCase
 {
-  public function test_form_creation()
+  public function test_form_manual_creation()
   {
-    $forms = Forms::create();
+    $form = new Form();
 
-    $forms->classlist->add('col-12', 'mt-4', 'bg-green')->parent()
+    $form->classlist->add('col-12', 'mt-4', 'bg-green')->parent()
         ->attrlist->add('id', 'formulario-vendas')
           ->add('action', './finalizar-venda.php')
           ->parent()
@@ -53,10 +53,10 @@ class FormsTest extends TestCase
         ->parent()
       ->parent();
 
-    self::assertEquals('<form class="col-12 mt-4 bg-green" id="formulario-vendas" action="./finalizar-venda.php"><label class="color-green" for="username">Nome de Usuário<input class="form-control" id="username" type="text"/></label><label class="color-green" for="password">Senha<input class="form-control" id="password" type="password"/></label><select class="color1 mb-5" id="car-list"><option value="1"></option><option value="2"></option><option value="3"></option></select></form>', $forms->render());
+    self::assertEquals('<form class="col-12 mt-4 bg-green" id="formulario-vendas" action="./finalizar-venda.php"><label class="color-green" for="username">Nome de Usuário<input class="form-control" id="username" type="text"/></label><label class="color-green" for="password">Senha<input class="form-control" id="password" type="password"/></label><select class="color1 mb-5" id="car-list"><option value="1"></option><option value="2"></option><option value="3"></option></select></form>', $form->render());
   }
 
-  public function test_easyForm_create_template()
+  public function test_easyForm_create_from_template()
   {
     $easyForm = new EasyForm();
 

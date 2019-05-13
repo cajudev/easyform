@@ -4,7 +4,6 @@ namespace Cajudev\Elements;
 
 use Cajudev\Interfaces\Renderable;
 
-use Cajudev\Forms;
 use Cajudev\Util\Character;
 
 use Cajudev\Collections\ClassList;
@@ -27,7 +26,21 @@ abstract class Element implements Renderable
 
 	public function create(string $name)
 	{
-		return $this->append(Forms::create($name));
+		switch (strtolower($name)) {
+            case 'input':    return $this->append(new Input());
+            case 'textarea': return $this->append(new TextArea());
+            case 'label':    return $this->append(new Label());
+            case 'fieldset': return $this->append(new FieldSet());
+            case 'legend':   return $this->append(new Legend());
+            case 'select':   return $this->append(new Select());
+            case 'optgroup': return $this->append(new OptGroup());
+            case 'option':   return $this->append(new Option());
+            case 'button':   return $this->append(new Button());
+            case 'dataList': return $this->append(new DataList());
+            case 'output':   return $this->append(new OutPut());
+            case 'small':    return $this->append(new Small());
+            case 'text':     return $this->append(new Text());
+        }
 	}
 
 	public function append(Element $element)
