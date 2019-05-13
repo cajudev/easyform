@@ -13,16 +13,10 @@ class EasyForm
     {
         $this->form = new Form();
 
-        if (isset($params['id'])) {
-            $this->form->attrlist->add('id', $params['id']);
-        }
-        
-        if (isset($params['action'])) {
-            $this->form->attrlist->add('action', $params['action']);
-        }
-
-        if (isset($params['class'])) {
-            $this->form->classlist->add($params['class']);
+        if (isset($value['attributes'])) {
+            foreach ($value['attributes'] as $k => $v) {
+                $this->form->attrlist->add($k, $v);
+            }
         }
     }
 
@@ -51,10 +45,6 @@ class EasyForm
     {
         foreach ($template as $key => $value) {
             $child = $element->create($key);
-
-            if (isset($value['class'])) {
-                $child->classlist->add($value['class']);
-            }
 
             if (isset($value['attributes'])) {
                 foreach ($value['attributes'] as $k => $v) {
