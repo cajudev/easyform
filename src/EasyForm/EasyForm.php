@@ -10,9 +10,21 @@ class EasyForm
     private $form;
     private $styles = [];
 
-    public function __construct()
+    public function __construct(array $params = [])
     {
         $this->form = new Form();
+
+        if (isset($params['id'])) {
+            $this->form->attrlist->add('id', $params['id']);
+        }
+        
+        if (isset($params['action'])) {
+            $this->form->attrlist->add('action', $params['action']);
+        }
+
+        if (isset($params['class'])) {
+            $this->form->classlist->add($params['class']);
+        }
     }
 
     public function setStyle(string $key, string $value)
