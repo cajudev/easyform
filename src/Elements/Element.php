@@ -39,6 +39,9 @@ abstract class Element implements Renderable
             case 'dataList': return $this->append(new DataList());
             case 'output':   return $this->append(new OutPut());
             case 'small':    return $this->append(new Small());
+            case 'div':      return $this->append(new Div());
+            case 'span':     return $this->append(new Span());
+            case 'i':        return $this->append(new Icon());
             case 'text':     return $this->append(new Text());
         }
 	}
