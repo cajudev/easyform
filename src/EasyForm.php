@@ -69,23 +69,6 @@ class EasyForm
                 $this->build($child, $value['children']);
             }
         }
-
-        /*
-            foreach ($template as $key => $value) {
-                if (is_array($value)) {
-                    $tag   = $key;
-                    $child = $element->create($tag);
-                    $this->build($child, $value);
-                } else {
-                    $tag   = $value;
-                    $child = $element->create($tag);
-                }
-
-                if (isset($this->style[$tag])) {
-                    $child->classlist->add($this->style[$tag]);
-                }
-            }
-        */
     }
 
     public function getForm()
