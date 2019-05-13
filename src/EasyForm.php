@@ -13,10 +13,8 @@ class EasyForm
     {
         $this->form = new Form();
 
-        if (isset($value['attributes'])) {
-            foreach ($value['attributes'] as $k => $v) {
-                $this->form->attrlist->add($k, $v);
-            }
+        foreach ($params as $key => $value) {
+            $this->form->attrlist->add($key, $value);
         }
     }
 
