@@ -1,7 +1,7 @@
 <?php
 
 use Cajudev\Forms;
-use Cajudev\EasyForm\EasyForm;
+use Cajudev\EasyForm;
 use PHPUnit\Framework\TestCase;
 
 class FormsTest extends TestCase
@@ -56,29 +56,50 @@ class FormsTest extends TestCase
         self::assertEquals('<form class="col-12 mt-4 bg-green" id="formulario-vendas" action="./finalizar-venda.php"><label class="color-green" for="username">Nome de Usuário<input class="form-control" id="username" type="text"/></label><label class="color-green" for="password">Senha<input class="form-control" id="password" type="password"/></label><select class="color1 mb-5" id="car-list"><option value="1"></option><option value="2"></option><option value="3"></option></select></form>', $forms->render());
     }
 
-    public function test_easy_form_input()
+    public function test_easyForm_create_template()
     {
         $easyForm = new EasyForm();
 
-        $easyForm->setStyle('fieldset', 'col-6');
-        $easyForm->setStyle('label', 'color-purple');
-        $easyForm->setStyle('input', 'form-control');
-        $easyForm->setStyle('small', 'color-light-purple');
-
-        $easyForm->input([
-            'id' => 'username',
-            'type' => 'text',
-            'label' => 'Nome de Usuário',
-            'small' => 'Email ou Apelido'
+        $easyForm->createTemplate('customInput', [
+            'fieldset' => [
+                'class' => 'form-group',
+                'children' => [
+                    'label' => [
+                        'class' => 'color-blue',
+                        'attributes' => ['for' => '@id'],
+                        'text' => '@label',
+                    ], 
+                    'input' => [
+                        'class' => 'form-control',
+                        'attributes' => ['id' => '@id', 'type' => '@type'],
+                    ], 
+                    'small' => [
+                        'class' => 'color-light-blue float-right font-italic',
+                        'text' => '@small'
+                    ]
+                ],
+            ],
         ]);
 
-        $easyForm->input([
-            'id' => 'pass',
-            'type' => 'password',
-            'label' => 'Senha',
-            'small' => 'Sua senha de 8 caracteres'
+        $easyForm->create('customInput', [
+            '@id'   => 'username',
+            '@type' => 'text',
+            '@label' => 'Nome de Usuário',
+            '@small' => 'Informe o nome de usuário ou email',
+        ]);
+        $easyForm->create('customInput', [
+            '@id'   => 'password',
+            '@type' => 'password',
+            '@label' => 'Senha',
+            '@small' => 'Informe sua senha de 8 caracteres',
+        ]);
+        $easyForm->create('customInput', [
+            '@id'   => 'email',
+            '@type' => 'text',
+            '@label' => 'Email',
+            '@small' => 'Informe o seu melhor email',
         ]);
 
-        self::assertEquals('<form><fieldset class="col-6"><label class="color-purple" for="username">Nome de Usuário</label><input class="form-control" id="username" type="text"/><small class="color-light-purple">Email ou Apelido</small></fieldset><fieldset class="col-6"><label class="color-purple" for="pass">Senha</label><input class="form-control" id="pass" type="password"/><small class="color-light-purple">Sua senha de 8 caracteres</small></fieldset></form>', $easyForm->render());
+        self::assertEquals('<form><fieldset class="form-group"><label class="color-blue" for="username">Nome de Usuário</label><input class="form-control" id="username" type="text"/><small class="color-light-blue float-right font-italic">Informe o nome de usuário ou email</small></fieldset><fieldset class="form-group"><label class="color-blue" for="password">Senha</label><input class="form-control" id="password" type="password"/><small class="color-light-blue float-right font-italic">Informe sua senha de 8 caracteres</small></fieldset><fieldset class="form-group"><label class="color-blue" for="email">Email</label><input class="form-control" id="email" type="text"/><small class="color-light-blue float-right font-italic">Informe o seu melhor email</small></fieldset></form>', $easyForm->render());
     }
 }

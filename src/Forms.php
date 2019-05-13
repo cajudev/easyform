@@ -2,7 +2,7 @@
 
 namespace Cajudev;
 
-use Cajudev\EasyForm\EasyForm;
+use Cajudev\EasyForm;
 use Cajudev\Elements\Form;
 use Cajudev\Elements\Input;
 use Cajudev\Elements\TextArea;
