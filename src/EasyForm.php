@@ -39,10 +39,11 @@ class EasyForm
 
         $template = $this->templates[$name];
         array_walk_recursive($template, function(&$value) use ($params){
-            if (isset($params[$value])) {
-                $value = $params[$value];
+            $find = preg_match('/(?<tag>::\w+)/', $value, $match);
+            if ($find && isset($params[$match['tag']])) {
+                $value = str_replace($match['tag'], $params[$match['tag']], $value);
             }
-        });    
+        });  
        $this->build($this->form, $template, $params);
     }
 
