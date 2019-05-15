@@ -3,6 +3,7 @@
 namespace Cajudev;
 
 use Cajudev\Elements\Form;
+use Cajudev\Collections\TemplateStore;
 
 class EasyForm
 {
@@ -16,20 +17,17 @@ class EasyForm
         foreach ($params as $key => $value) {
             $this->form->attrlist->add($key, $value);
         }
-    }
 
-    public function createTemplate(string $name, array $template)
-    {
-       $this->templates[$name] = $template;
+        $this->templates = new TemplateStore();
     }
 
     public function create(string $name, array $params = [])
     {
-        if (empty($this->templates[$name])) {
+        if (!$this->templates->get($name)) {
             throw new \InvalidArgumentException('Template not found');
         }
 
-        $template = $this->templates[$name];
+        $template = $this->templates->get($name);
         array_walk_recursive($template, function(&$value) use ($params){
             if (preg_match('/(?<tag>::\w+)/', $value, $match)) {
                 $replace = $params[$match['tag']] ?? '';
@@ -63,6 +61,13 @@ class EasyForm
     public function getForm()
     {
         return $this->form;
+    }
+
+    public function __get($property)
+    {
+        if ($property === 'templates') {
+            return $this->templates;
+        }
     }
 
     public function render()

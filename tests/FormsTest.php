@@ -1,6 +1,7 @@
 <?php
 
 use Cajudev\EasyForm;
+use Cajudev\UI\Template;
 use Cajudev\Elements\Form;
 use PHPUnit\Framework\TestCase;
 
@@ -58,9 +59,7 @@ class FormTest extends TestCase
 
   public function test_easyForm_create_from_template()
   {
-    $easyForm = new EasyForm();
-
-    $easyForm->createTemplate('customInput', [
+    $customInputTemplate = new Template('customInput', [
       'fieldset' => [
         'attributes' => ['class' => 'form-group'],
         'children' => [
@@ -79,18 +78,23 @@ class FormTest extends TestCase
       ],
     ]);
 
+    $easyForm = new EasyForm();
+    $easyForm->templates->add($customInputTemplate);
+
     $easyForm->create('customInput', [
       '::id'   => 'username',
       '::type' => 'text',
       '::label' => 'Nome de Usuário',
       '::small' => 'Informe o nome de usuário ou email',
     ]);
+
     $easyForm->create('customInput', [
       '::id'   => 'password',
       '::type' => 'password',
       '::label' => 'Senha',
       '::small' => 'Informe sua senha de 8 caracteres',
     ]);
+
     $easyForm->create('customInput', [
       '::id'   => 'email',
       '::type' => 'text',

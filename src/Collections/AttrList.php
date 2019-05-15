@@ -18,7 +18,7 @@ class AttrList implements Dictionary, Renderable
         $this->parent = $parent;
     }
 
-    public function add(string $name, string $value): self
+    public function add(string $name, $value): self
     {
         $this->attributes[$name] = $value;
         return $this;
