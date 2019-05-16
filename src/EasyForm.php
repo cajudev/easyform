@@ -37,21 +37,32 @@ class EasyForm
     public function setTemplateVariables(&$template, $params)
     {
         RecursiveWalker::walk($template, function(&$array, $key) use ($params) {
-            if (!preg_match('/(?<tag>::\w+)(?<bool>\?)?/', $array[$key], $match)) {
+            if (!preg_match_all('/(?<tag>::\w+)(?<cond>[!?])?/', $array[$key], $matches, PREG_SET_ORDER)) {
                 return;
             }
 
-            if (isset($match['bool'])) {
-                $array[$key] = isset($params[$match['tag']]);
-                return;
-            }
+            foreach ($matches as $match) {
 
-            if (empty($params[$match['tag']])) {
-                unset($array[$key]); return;
+                if (isset($match['cond']) && $match['cond'] === '!') {
+                    $array[$key] = isset($params[$match['tag']]);
+                    continue;
+                }
+    
+                if (!empty($params[$match['tag']])) {
+                    $replace = $params[$match['tag']];
+                    $array[$key] = is_string($replace) 
+                                 ? str_replace($match['tag'].$match['cond'], $replace, $array[$key]) 
+                                 : $replace;
+                    continue;
+                }
+    
+                if (isset($match['cond']) && $match['cond'] === '?') {
+                    $array[$key] = str_replace($match['tag'], '', $array[$key]);
+                    continue;
+                }
+    
+                unset($array[$key]);
             }
-
-            $replace = $params[$match['tag']];
-            $array[$key] = is_string($replace) ? str_replace($match['tag'], $replace, $array[$key]) : $replace;
         });
     }
 
@@ -60,7 +71,7 @@ class EasyForm
         foreach ($template as $key => $value) {
 
             if (isset($value['display']) && !$value['display']) {
-                return;
+                continue;
             }
 
             $child = $element->create($key);
