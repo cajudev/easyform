@@ -9,13 +9,14 @@ class TemplateStore implements Store
 {
 	private $templates;
 
-	public function add(object $template)
+	public function add(object ...$template)
 	{
-		if (!$template instanceof Template) {
-			throw new \InvalidArgumentException('Expect '.Template::class.' object, '.get_class($template).' given');
+		foreach ($template as $t) {
+			if (!$t instanceof Template) {
+				throw new \InvalidArgumentException('Expect '.Template::class.' object, '.get_class($t).' given');
+			}
+			$this->templates[] = $t;
 		}
-
-		$this->templates[] = $template;
 		return $this;
 	}
 
