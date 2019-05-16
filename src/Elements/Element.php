@@ -42,6 +42,7 @@ abstract class Element implements Renderable
             case 'div':      return $this->append(new Div());
             case 'span':     return $this->append(new Span());
             case 'i':        return $this->append(new Icon());
+            case 'hr':       return $this->append(new Hr());
             case 'text':     return $this->append(new Text());
         }
 	}

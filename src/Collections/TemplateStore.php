@@ -21,8 +21,10 @@ class TemplateStore implements Store
 
 	public function get(string $name)
 	{
-		return array_filter($this->templates, function($template) use ($name) {
+		$template = array_values(array_filter($this->templates, function($template) use ($name) {
 			return $template->getName() === $name;
-		})[0]->getContent();
+		}));
+
+		return isset($template[0]) ? $template[0]->getContent() : null;
 	}
 }

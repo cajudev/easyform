@@ -18,9 +18,13 @@ class AttrList implements Dictionary, Renderable
         $this->parent = $parent;
     }
 
-    public function add(string $name, $value): self
+    public function add(string $name, $value = null): self
     {
-        $this->attributes[$name] = $value;
+        if ($value === null) {
+            $this->attributes[] = $value;
+        } else {
+            $this->attributes[$name] = $value;
+        }
         return $this;
 	}
 
@@ -53,7 +57,7 @@ class AttrList implements Dictionary, Renderable
         }
         
         return implode(Character::SPACE, array_map(function ($name, $value) {
-                return "{$name}=\"$value\"";
+                return is_numeric($name) ? $value : "{$name}=\"$value\"";
             }, array_keys($this->attributes), $this->attributes));
     }
 

@@ -3,7 +3,9 @@
 namespace Cajudev;
 
 use Cajudev\Elements\Form;
+use Cajudev\Util\Character;
 use Cajudev\Collections\TemplateStore;
+use Cajudev\Collections\RecursiveWalker;
 
 class EasyForm
 {
@@ -24,17 +26,28 @@ class EasyForm
     public function create(string $name, array $params = [])
     {
         if (!$this->templates->get($name)) {
-            throw new \InvalidArgumentException('Template not found');
+            throw new \InvalidArgumentException("Template '{$name}' not found");
         }
 
-        $template = $this->templates->get($name);
-        array_walk_recursive($template, function(&$value) use ($params){
-            if (preg_match('/(?<tag>::\w+)/', $value, $match)) {
-                $replace = $params[$match['tag']] ?? '';
-                $value = str_replace($match['tag'], $replace, $value);
+       $template = $this->templates->get($name);
+       $this->setTemplateVariables($template, $params);
+       $this->build($this->form, $template);
+    }
+
+    public function setTemplateVariables(&$template, $params)
+    {
+        RecursiveWalker::walk($template, function(&$array, $key) use ($params) {
+            if (!preg_match('/(?<tag>::\w+)/', $array[$key], $match)) {
+                return;
             }
-        });  
-       $this->build($this->form, $template, $params);
+
+            if (empty($params[$match['tag']])) {
+                unset($array[$key]); return;
+            }
+
+            $replace = $params[$match['tag']] ?? '';
+            $array[$key] = is_string($replace) ? str_replace($match['tag'], $replace, $array[$key]) : $replace;
+        });
     }
 
     private function build($element, $template)
@@ -48,6 +61,13 @@ class EasyForm
                 }
             }
 
+            if (isset($value['options']) && is_array($value['options'])) {
+                foreach ($value['options'] as $value => $description) {
+                    $child->create('option')->attrlist->add('value', $value)->parent()
+                          ->create('text')->textContent($description);
+                }
+            }
+
             if (isset($value['text'])) {
                 $child->create('text')->textContent($value['text']);
             }
@@ -56,6 +76,17 @@ class EasyForm
                 $this->build($child, $value['children']);
             }
         }
+    }
+
+    public function breakLine(int $marginY = 10)
+    {
+        $this->form->create('div')->attrlist->add('style', "flex: 0 0 100%; max-width: 100%; margin: {$marginY}px 0");
+    }
+
+    public function drawLine($marginY = 10, $width = 100, $color = '#DADADA', $position = 'none')
+    {
+        $this->form->create('div')->attrlist->add('style', "flex: 0 0 100%; max-width: 100%; margin: {$marginY}px 0")->parent()
+            ->create('hr')->attrlist->add('width', $width.'%')->add('style', "border-color: {$color}; float: {$position};");
     }
 
     public function getForm()
