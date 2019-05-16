@@ -37,7 +37,12 @@ class EasyForm
     public function setTemplateVariables(&$template, $params)
     {
         RecursiveWalker::walk($template, function(&$array, $key) use ($params) {
-            if (!preg_match('/(?<tag>::\w+)/', $array[$key], $match)) {
+            if (!preg_match('/(?<tag>::\w+)(?<bool>\?)?/', $array[$key], $match)) {
+                return;
+            }
+
+            if (isset($match['bool'])) {
+                $array[$key] = isset($params[$match['tag']]);
                 return;
             }
 
@@ -45,7 +50,7 @@ class EasyForm
                 unset($array[$key]); return;
             }
 
-            $replace = $params[$match['tag']] ?? '';
+            $replace = $params[$match['tag']];
             $array[$key] = is_string($replace) ? str_replace($match['tag'], $replace, $array[$key]) : $replace;
         });
     }
@@ -53,6 +58,11 @@ class EasyForm
     private function build($element, $template)
     {
         foreach ($template as $key => $value) {
+
+            if (isset($value['display']) && !$value['display']) {
+                return;
+            }
+
             $child = $element->create($key);
 
             if (isset($value['attributes'])) {
