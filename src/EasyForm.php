@@ -36,34 +36,38 @@ class EasyForm
 
     public function setTemplateVariables(&$template, $params)
     {
-        RecursiveWalker::walk($template, function(&$array, $key) use ($params) {
-            if (!preg_match_all('/(?<tag>::\w+)(?<cond>[!?])?/', $array[$key], $matches, PREG_SET_ORDER)) {
-                return;
-            }
-
+        $self = $this;
+        RecursiveWalker::walk($template, function(&$array, $key) use ($self, $params) {
+            $regex = '/(?<tag>::\w+)(?<operator>[!?])?/';
+            preg_match_all($regex, $array[$key], $matches, PREG_SET_ORDER);
             foreach ($matches as $match) {
-
-                if (isset($match['cond']) && $match['cond'] === '!') {
-                    $array[$key] = isset($params[$match['tag']]);
-                    continue;
-                }
-    
-                if (!empty($params[$match['tag']])) {
-                    $replace = $params[$match['tag']];
-                    $array[$key] = is_string($replace) 
-                                 ? str_replace($match['tag'].$match['cond'], $replace, $array[$key]) 
-                                 : $replace;
-                    continue;
-                }
-    
-                if (isset($match['cond']) && $match['cond'] === '?') {
-                    $array[$key] = str_replace($match['tag'], '', $array[$key]);
-                    continue;
-                }
-    
-                unset($array[$key]);
+                $self->setVariable($match, $array, $key, $params);
             }
         });
+    }
+
+    private function setVariable($match, &$array, $key, $params) {
+        @['tag' => $tag, 'operator' => $operator] = $match;
+
+        //Conditional operator
+        if ($operator === '!') {
+            return $array[$key] = isset($params[$tag]);
+        }
+
+        //Variable replacement
+        if (isset($params[$tag])) {
+            $replace = $params[$tag];
+            return $array[$key] = is_string($replace) 
+                                ? str_replace($tag.$operator, $replace, $array[$key]) 
+                                : $replace;
+        }
+
+        //Optional operator
+        if ($operator === '?') {
+            return $array[$key] = str_replace($tag, '', $array[$key]);
+        }
+
+        unset($array[$key]);
     }
 
     private function build($element, $template)
