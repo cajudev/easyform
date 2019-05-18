@@ -64,7 +64,7 @@ class EasyForm
 
         //Optional operator
         if ($operator === '?') {
-            return $array[$key] = str_replace($tag, '', $array[$key]);
+            return $array[$key] = preg_replace('/[\w-]*'.$tag.'\\'.$operator.'[\w-]*/', '', $array[$key]);
         }
 
         unset($array[$key]);
