@@ -1,6 +1,6 @@
 {
     "name": "cajudev/easyform",
-    "description": "Nunca foi tão fácil renderizar formulários diretamente no back end.",
+    "description": "Crie formulários diretamente no back end, através de templates reutilizáveis",
     "keywords": ["form", "composer", "php"],
     "license": "MIT",
     "homepage": "https://github.com/cajudev/forms",
