@@ -9,7 +9,7 @@ Bem vindo ao EasyForm
 [![](https://img.shields.io/github/issues/cajudev/easyform.svg)](https://github.com/cajudev/easyform/issues)
 [![](https://img.shields.io/github/contributors/cajudev/easyform.svg)](https://github.com/cajudev/easyform/graphs/contributors)
 
-Uma simples, porém eficiente interface para trabalhar com arquivos csv
+Crie formulários diretamente no back end, através de templates reutilizáveis
 
 Leia a documentação completa em: http://cajudev.readthedocs.io/pt_BR/latest/easyform
 
